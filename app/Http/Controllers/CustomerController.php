@@ -6,6 +6,7 @@ use App\Cart;
 use App\classes\backbag;
 use App\classes\EmailNotifier;
 use App\classes\LogHandler;
+use App\classes\Loginnn;
 use App\classes\Subject;
 use App\item;
 use App\Order;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerController extends Controller implements Subject
+class CustomerController extends Controller
 {
     protected $observers = [];
     public function __construct()
@@ -106,8 +107,13 @@ class CustomerController extends Controller implements Subject
         $order->description = $this->AllDescription();
         $order->price = $this->TotallPrice();
         $order->save();
-        $this->attach([new EmailNotifier()]);
-        $this->fire();
+
+
+        $login = new Loginnn();
+        $login->attach([new \App\classes\EmailNotifier(),new LogHandler()]);
+        $login->fire();
+
+
         return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice()]);
     }
 
@@ -237,50 +243,4 @@ class CustomerController extends Controller implements Subject
     }
 
 
-    public function attach($observable)
-    {
-        if(is_array($observable)){
-            return $this->attachObservers($observable);
-        }
-        $this->observers[] = $observable;
-        return $this;
-
-    }
-
-    public function detach($index)
-    {
-        unset($this->observers[$index]);
-    }
-
-    public function notify()
-    {
-        foreach ($this->observers as $observer){
-            $observer->handle();
-        }
-    }
-    public function handle()
-    {
-        var_dump("this is some shit .");
-    }
-
-    /**
-     * @param $observable
-     */
-    private function attachObservers($observable)
-    {
-        foreach ($observable as $observer) {
-            if (!$observer instanceof Observer) {
-                return ;
-            }
-            $this->attach($observer);
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function fire()
-    {
-        $this->notify();
-    }
 }

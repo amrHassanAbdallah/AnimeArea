@@ -27,6 +27,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    public function Notification()
+    {
+        return $this->hasMany(Notification::class);
+    }
     public function products()
     {
         return $this->hasMany('App\Product');
