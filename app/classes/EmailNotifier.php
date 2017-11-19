@@ -13,6 +13,6 @@ class EmailNotifier implements Observer
 {
     public function handle()
     {
-        var_dump('this email handler');
+        
     }
 }

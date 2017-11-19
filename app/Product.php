@@ -2,10 +2,15 @@
 
 namespace App;
 
+use App\classes\ProductService;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Product extends Model implements ProductService
 {
+    protected $description;
+    protected $price;
+    protected $qty;
+    protected $cat;
     protected  $fillable = ['name','price','image','description','Seller_id'];
 
     public function seller()
@@ -20,5 +25,29 @@ class Product extends Model
     public function image($image)
     {
         return '/storage/cover_images/'.$image;
+    }
+public function getDescription()
+    {
+        return "x ".$this->qty." product(s) , category:".$this->cat." ,".substr($this->description,0,50);
+    }
+public function getCost()
+    {
+        return $this->price;
+    }
+public function setCost($cost){
+        $this->price = $cost;
+    }
+
+    public function setDescription($desc)
+    {
+        $this->description = $desc;
+    }
+
+    public function setQTY($qty)
+    {
+        $this->qty = $qty;
+    }
+    public function setCat($cat){
+    $this->cat = $cat;
     }
 }

@@ -28,6 +28,10 @@ Route::get('/checkout',[
     'uses' =>'CustomerController@checkout',
     'as' =>'checkout'
 ]);
+Route::post('/decorator/{id}/{option}',[
+    'uses' =>'CustomerController@addDecorator',
+    'as' =>'decorator'
+]);
 
 Auth::routes();
 

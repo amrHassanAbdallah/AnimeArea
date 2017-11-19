@@ -18,7 +18,6 @@ class Loginnn implements Subject
     public function attach($observable)
     {
         if(is_array($observable)){
-            echo "true";
             return $this->attachObservers($observable);
         }
         $this->observers[] = $observable;

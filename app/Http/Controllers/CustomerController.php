@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\classes\backbag;
+use App\classes\EmailNotifier;
+use App\classes\LogHandler;
+use App\classes\Subject;
 use App\item;
 use App\Order;
 use App\Product;
@@ -11,8 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerController extends Controller
+class CustomerController extends Controller implements Subject
 {
+    protected $observers = [];
     public function __construct()
     {
         $this->middleware('customer');
@@ -53,6 +58,29 @@ class CustomerController extends Controller
 
     }
 
+    public function addDecorator($id,$option){
+       if((int) $option >3){
+           return redirect()->back()->with("error","no such thing here");
+       }
+        $item = item::find($id);
+        $product = Product::find(item::find($id)->product_id);
+        $product->setCost($product->price);
+        $product->setDescription($product->description);
+        $product->setCat($product->category->name);
+        $product->setQTY($item->Quantity);
+        $newCost = $item->price;
+        $newDescription = $item->description;
+
+        $backbag =   (new backbag($product,$item->Quantity));
+        $newCost = $backbag->getCost();
+        $newDescription = $backbag->getDescription();
+
+  $item->price = $newCost;
+  $item->description = $newDescription;
+  $item->save();
+  return redirect()->back()->with("success","all items now have a bag");
+
+    }
 
     public function remove($id)
     {
@@ -73,6 +101,13 @@ class CustomerController extends Controller
 
     public function checkout()
     {
+
+        $order = Order::where("state","=",1)->where("cart_id","=",Auth::user()->cart->id)->first();
+        $order->description = $this->AllDescription();
+        $order->price = $this->TotallPrice();
+        $order->save();
+        $this->attach([new EmailNotifier()]);
+        $this->fire();
         return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice()]);
     }
 
@@ -189,5 +224,63 @@ class CustomerController extends Controller
             $totall_price +=$item->price;
         }
         return  $totall_price;
+    }
+
+    public function AllDescription()
+    {
+        $items = $this->GetAllItems();
+        $description ="";
+        foreach ($items as  $item){
+            $description .=$item->description;
+        }
+        return  $description;
+    }
+
+
+    public function attach($observable)
+    {
+        if(is_array($observable)){
+            return $this->attachObservers($observable);
+        }
+        $this->observers[] = $observable;
+        return $this;
+
+    }
+
+    public function detach($index)
+    {
+        unset($this->observers[$index]);
+    }
+
+    public function notify()
+    {
+        foreach ($this->observers as $observer){
+            $observer->handle();
+        }
+    }
+    public function handle()
+    {
+        var_dump("this is some shit .");
+    }
+
+    /**
+     * @param $observable
+     */
+    private function attachObservers($observable)
+    {
+        foreach ($observable as $observer) {
+            if (!$observer instanceof Observer) {
+                return ;
+            }
+            $this->attach($observer);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function fire()
+    {
+        $this->notify();
     }
 }

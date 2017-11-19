@@ -23,6 +23,7 @@
                                     <th class="product-thumbnail">description</th>
                                     <th class="product-quantity">product url</th>
                                     <th class="product-subtotal">Total</th>
+                                    <th class="product-subtotal">decorator</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -71,30 +72,49 @@
                                     <td class="product-subtotal">
                                         <h5 class="total amount">${{$item->price}}</h5>
                                     </td>
+                                    <td>
+                                 {{--       {!!Form::open(['action'=>['CustomerController@addDecorator','id'=>$item->id,'option'=>1],'method'=>'post'])  !!}
+                                        <button class="btn-xs btn-default " style="margin-bottom: 10px">add color</button>
+                                        {!! Form::close() !!}
 
+                                        {!!Form::open(['action'=>['CustomerController@addDecorator','id'=>$item->id,'option'=>2],'method'=>'post'])  !!}
+                                        <button class="btn-xs btn-default" style="margin-bottom: 10px">add name</button>
+                                        {!! Form::close() !!}--}}
+
+                                        {!!Form::open(['action'=>['CustomerController@addDecorator','id'=>$item->id,'option'=>3],'method'=>'post'])  !!}
+                                        <button class="btn-xs btn-default">add bag</button>
+                                        {!! Form::close() !!}
+                                    </td>
                                 </tr>
+
+
+
 @endforeach
 
 
                                 <tr>
                                     @if($NOP)
-                                    <td colspan="5" class="actions">
+                                  {{--  <td colspan="5" class="actions">
 
 
 <div class="row">
     <div class="col-lg-4">
         <div class="coupon">
-            {{-- <h8 style="color: red">**Note**:  this products takes 4-6 days to deliver .</h8>
+            --}}{{-- <h8 style="color: red">**Note**:  this products takes 4-6 days to deliver .</h8>
              <br>
-             <h8 style="color: green">**Note**:  if you want to receive it after  2-4 days click     "Add premium delivery" button .</h8>--}}
+             <h8 style="color: green">**Note**:  if you want to receive it after  2-4 days click     "Add premium delivery" button .</h8>--}}{{--
             <h8 style="color: green">**Note**:  if you want to add some custom such as      .</h8>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="btn btn-medium btn--dark btn-hover-shadow btn-holder">
-            <span class="text">Add premium delivery </span>
-            <span class="semicircle"></span>
-        </div>  <div class="btn btn-medium btn--dark btn-hover-shadow btn-holder">
+
+            <span class="semicircle">
+
+            </span>
+        </div>
+
+        <div class="btn btn-medium btn--dark btn-hover-shadow btn-holder">
             <span class="text">Add premium delivery </span>
             <span class="semicircle"></span>
         </div>
@@ -113,7 +133,7 @@
 </div>
 
 
-                                    </td>
+                                    </td>--}}
                                         @endif
                                 </tr>
                                 @endif
