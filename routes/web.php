@@ -23,6 +23,12 @@ Route::get('/product/{id}',
         'as' => 'product.single'
     ]);
 
+
+Route::get('/checkout',[
+    'uses' =>'CustomerController@checkout',
+    'as' =>'checkout'
+]);
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

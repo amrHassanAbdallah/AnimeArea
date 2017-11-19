@@ -38,6 +38,9 @@
         .alert-success{
             background: green;
         }
+        .btn-holder{
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 

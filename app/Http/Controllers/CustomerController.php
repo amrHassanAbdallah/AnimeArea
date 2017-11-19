@@ -71,6 +71,11 @@ class CustomerController extends Controller
     }
 
 
+    public function checkout()
+    {
+        return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice()]);
+    }
+
 
     /**
      * @param $cart
@@ -150,6 +155,9 @@ class CustomerController extends Controller
             $item->products_ids = serialize($productsIds);
             $item->price = (double)$ctr * (double)$FirstProduct->price;
             $item->description = "" . $ctr . " of " . $FirstProduct->category->name . " / code :" . $FirstProduct->code;
+
+            $item ->category = $FirstProduct->category->name;
+            $item->Quantity = $ctr;
 
             $order->items()->save($item);
             return true;

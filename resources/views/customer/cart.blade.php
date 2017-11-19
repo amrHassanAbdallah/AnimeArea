@@ -77,22 +77,44 @@
 
 
                                 <tr>
+                                    @if($NOP)
                                     <td colspan="5" class="actions">
 
-                                        <div class="coupon">
-                                            <input name="coupon_code" class="email input-standard-grey" value="" placeholder="Coupon code" type="text">
-                                            <div class="btn btn-medium btn--breez btn-hover-shadow">
-                                                <span class="text">Apply Coupon</span>
-                                                <span class="semicircle--right"></span>
-                                            </div>
-                                        </div>
 
-                                        <div class="btn btn-medium btn--dark btn-hover-shadow">
-                                            <span class="text">Apply Coupon</span>
-                                            <span class="semicircle"></span>
-                                        </div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="coupon">
+            {{-- <h8 style="color: red">**Note**:  this products takes 4-6 days to deliver .</h8>
+             <br>
+             <h8 style="color: green">**Note**:  if you want to receive it after  2-4 days click     "Add premium delivery" button .</h8>--}}
+            <h8 style="color: green">**Note**:  if you want to add some custom such as      .</h8>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="btn btn-medium btn--dark btn-hover-shadow btn-holder">
+            <span class="text">Add premium delivery </span>
+            <span class="semicircle"></span>
+        </div>  <div class="btn btn-medium btn--dark btn-hover-shadow btn-holder">
+            <span class="text">Add premium delivery </span>
+            <span class="semicircle"></span>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="btn btn-medium btn--dark btn-hover-shadow btn-holder">
+            <span class="text">Add premium delivery </span>
+            <span class="semicircle"></span>
+        </div>  <div class="btn btn-medium btn--dark btn-hover-shadow btn-holder">
+            <span class="text">Add premium delivery </span>
+            <span class="semicircle"></span>
+        </div>
+
+    </div>
+
+</div>
+
 
                                     </td>
+                                        @endif
                                 </tr>
                                 @endif
 
@@ -101,15 +123,16 @@
 
 
                         </div>
-
+                        @if($NOP)
                         <div class="cart-total">
                             <h3 class="cart-total-title">Cart Totals</h3>
                             <h5 class="cart-total-total">Total: <span class="price">{{$totall_price}}</span></h5>
-                            <a href="20_checkout.html" class="btn btn-medium btn--light-green btn-hover-shadow">
+                            <a href="{{route('checkout')}}" class="btn btn-medium btn--light-green btn-hover-shadow">
                                 <span class="text">Checkout</span>
                                 <span class="semicircle"></span>
                             </a>
                         </div>
+                            @endif
 
                     </div>
 
