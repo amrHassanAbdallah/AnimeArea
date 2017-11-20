@@ -11,7 +11,7 @@ namespace App\classes;
 
 use Mockery\Exception;
 
-class Loginnn implements Subject
+class Checkout implements Subject
 {
     protected $observers = [];
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\classes\LogHandler;
-use App\classes\Loginnn;
+use App\classes\Checkout;
 use App\Listeners\EmailNotifier;
 use App\Product;
 use App\User;

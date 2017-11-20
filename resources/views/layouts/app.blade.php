@@ -88,6 +88,7 @@
 
         @include('inc.feedback')
         @yield('content')
+
     </div>
 
     <!-- Scripts -->

@@ -6,7 +6,7 @@ use App\Cart;
 use App\classes\backbag;
 use App\classes\EmailNotifier;
 use App\classes\LogHandler;
-use App\classes\Loginnn;
+use App\classes\Checkout;
 use App\classes\Subject;
 use App\item;
 use App\Order;
@@ -109,7 +109,7 @@ class CustomerController extends Controller
         $order->save();
 
 
-        $login = new Loginnn();
+        $login = new Checkout();
         $login->attach([new \App\classes\EmailNotifier(),new LogHandler()]);
         $login->fire();
 
