@@ -9,7 +9,7 @@ class Product extends Model implements ProductService
 {
     protected $description;
     protected $price;
-    protected $qty;
+    protected $qty = 1;
     protected $cat;
     protected  $fillable = ['name','price','image','description','Seller_id'];
 
@@ -22,17 +22,17 @@ class Product extends Model implements ProductService
         return $this->belongsTo(Category::class);
     }
 
-    public function image($image)
+   /* public function image($image)
     {
         return '/storage/cover_images/'.$image;
-    }
+    }*/
 public function getDescription()
     {
         return "x ".$this->qty." product(s) , category:".$this->cat." ,".substr($this->description,0,50);
     }
 public function getCost()
     {
-        return $this->price;
+        return $this->qty*$this->price;
     }
 public function setCost($cost){
         $this->price = $cost;

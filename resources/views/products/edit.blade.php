@@ -13,13 +13,28 @@
                     {{Form::text('name',$product->name,['class'=>'form-control','placeholder'=>'name'])}}
                 </div>
                 <div class="form-group">
+                    {{Form::label('code','code')}}
+                    {{Form::text('code',$product->code,['class'=>'form-control','placeholder'=>'code'])}}
+                </div>
+                <div class="form-group">
                     {{Form::label('price','price')}}
-                    {{Form::text('price',$product->price,[,'class'=>'form-control','placeholder'=>'price'])}}
+                    {{Form::text('price',$product->price,['class'=>'form-control','placeholder'=>'price'])}}
                 </div>
                 <div class="form-group">
                     {{Form::label('description','description')}}
                     {{Form::textarea('description',$product->description,['id'=>'article-ckeditor','class'=>'form-control','placeholder'=>'Description'])}}
                 </div>
+
+                <div class="form-group">
+
+                    <select class="form-control" name="category" value="{{$product->category_id}}" >
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}" @if($product->category_id ==$category->id) selected @endif>{{$category->name}}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+
                 <div class="form-group">
                     <div class="form-control">
 

@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Seosight - Shop</title>
+    <title>AnimeArea - Shop</title>
 
     <link rel="stylesheet" type="text/css" href="{{asset('app/css/fonts.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app/css/crumina-fonts.css')}}">
@@ -54,15 +54,52 @@
         <div class="header-content-wrapper">
 
             <ul class="nav-add">
+                &nbsp;@if(Auth::check() && Auth::user()->membership === "customer")
                 <li style="margin-right: 10px">
                     <a href="{{route('index')}}" >
                         <i ></i>
-                        &nbsp;@if(Auth::check() && Auth::user()->membership === "customer")
+
                             <span>Home</span>
-                        @endif
+
                     </a>
 
                 </li>
+                @endif
+
+                @if(Auth::check())
+                    <li style="margin-right: 10px">
+                        <a href="{{route('home')}}" >
+                            <i ></i>
+
+                            <span>Dashboard</span>
+
+                        </a>
+
+                    </li>
+                    @endif
+
+                @guest
+                    <li style="margin-right: 10px">
+                        <a href="{{route('login')}}" >
+                            <i ></i>
+
+                                <span>login</span>
+
+                        </a>
+
+                    </li>
+                    <li style="margin-right: 10px">
+                        <a href="{{route('register')}}" >
+                            <i ></i>
+
+                            <span>register</span>
+
+                        </a>
+
+                    </li>
+                    @endguest
+
+
                 <li class="cart">
 
                     <a href="#" class="js-cart-animate">

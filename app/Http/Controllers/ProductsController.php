@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Notification;
 use App\Product;
 use App\User;
@@ -35,7 +36,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('products.create')->with( 'categories',Category::all());
     }
 
     /**
@@ -49,8 +50,10 @@ class ProductsController extends Controller
         $this->validate($request,[
            'name'=>'required|max:180',
            'description'=>'required|max:180',
-           'price' =>'required|max:18',
-           'image'=>'required|image|max:2000'
+           'price' =>'required|max:7',
+           'image'=>'required|image|max:2000',
+            'category'=>'required|max:50',
+            'code'=>'required|max:50'
         ]);
         $filenameWithExt = $request->file('image')->getClientOriginalName();
         //file name
@@ -59,13 +62,15 @@ class ProductsController extends Controller
         $extension = $request->file('image')->getClientOriginalExtension();
         //file name to store
         $fileNameToStore = $filename.'_'.time().'.'.$extension;
-        $path = $request->file('image')->storeAs('public/cover_images',$fileNameToStore);
+        $path = $request->file('image')->storeAs('/public/cover_images',$fileNameToStore);
 
         $product = new Product;
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = (double)$request->price;
-        $product->image = $path;
+        $product->image = "/storage/cover_images/".$fileNameToStore;
+        $product->category_id = $request->category;
+        $product->code = $request->code;
         $product->Seller_id = Auth::id();
 
         $product->save();
@@ -92,7 +97,10 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        return view('products.edit')->with('product',Product::find($id));
+        return view('products.edit')->with([
+            'product'=>Product::find($id),
+            'categories'=>Category::all()
+        ]);
     }
 
     /**
@@ -108,12 +116,16 @@ class ProductsController extends Controller
             'name'=>'required|max:180',
             'description'=>'required|max:180',
             'price' =>'required|max:18',
-            'image'=>'nullable|image|max:2000'
+            'image'=>'nullable|image|max:2000',
+            'category'=>'required|max:50',
+            'code'=>'required|max:50'
         ]);
         $product = Product::find($id);
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->category_id = $request->category;
+        $product->code = $request->code;
         if($request->hasFile('image')){
             Storage::delete('public/cover_images/'.$product->image);
             $filenameWithExt = $request->file('image')->getClientOriginalName();
@@ -124,7 +136,7 @@ class ProductsController extends Controller
             //file name to store
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
             $path = $request->file('cove_image')->storeAs('public/cover_images',$fileNameToStore);
-            $product->image = $fileNameToStore;
+            $product->image = "/storage/cover_images/".$fileNameToStore;
         }
 
         $product->save();

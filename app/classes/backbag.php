@@ -22,7 +22,7 @@ class backbag implements ProductService
 
     public function getCost()
     {
-        return 19 + $this->carService->getCost();
+        return $this->quantity*19 + $this->carService->getCost();
     }
     public function getDescription()
     {
