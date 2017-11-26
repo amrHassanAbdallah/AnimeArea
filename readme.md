@@ -11,8 +11,8 @@ Congrats now you are up and runing with AnimeArea Site .
 ###code
 Write in your terminal in the project folder 
 
-php artisan migrate -> which will install all project tables in your db 
-php artisan db:seed  -> which will seed your db with 30 products and 10 users of type customer and 1 admin of type seller 
+`php artisan migrate` -> which will install all project tables in your db 
+`php artisan db:seed`  -> which will seed your db with 30 products and 10 users of type customer and 1 admin of type seller 
 ####features 
 Observer , decorator patterns applied .
 also couple unit testing there . 
