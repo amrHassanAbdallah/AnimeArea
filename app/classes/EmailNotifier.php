@@ -19,7 +19,7 @@ class EmailNotifier implements Observer
     {
         $order = Order::where("state","=",1)->where("cart_id","=",Auth::user()->cart->id)->first();
         $Notification = new Notification;
-        $Notification->content = "a user :".Auth::user()->name." , email:  ".Auth::user()->email." has placed an order  ,Price :".$order->price;
+        $Notification->content = "a user :".Auth::user()->name." , email:  ".Auth::user()->email." has placed an order  ,".$order->description;
         $Notification->user_id = 1;
         $Notification->save();
 

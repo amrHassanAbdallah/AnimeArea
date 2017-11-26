@@ -20,6 +20,7 @@ class UserTest extends TestCase
 
         try{
             $user->save();
+            $this->assertTrue(false);
         }catch (\Illuminate\Database\QueryException $e){
             $this->assertTrue(true);
         }

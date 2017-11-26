@@ -13,9 +13,9 @@
                                 <table class="shop_table cart">
                                     <thead class="cart-product-wrap-title-main">
                                     <tr>
-                                        <th class="product-thumbnail">Product</th>
-                                        <th class="product-quantity">Quantity</th>
-                                        <th class="product-subtotal">Total</th>
+                                        <th class="product-thumbnail">Order description</th>
+
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -26,78 +26,13 @@
 
                                             <div class="cart-product__item">
                                                 <div class="cart-product-content">
-                                                    <h5 class="cart-product-title">Search Marketing</h5>
+                                                    <h5 class="cart-product-title">{{$order->description}}</h5>
                                                 </div>
                                             </div>
                                         </td>
 
-                                        <td class="product-quantity">
-
-                                            <div class="quantity">
-                                                x 1
-                                            </div>
-
-                                        </td>
-
-                                        <td class="product-subtotal">
-                                            <h5 class="total amount">$58.00</h5>
-                                        </td>
-
                                     </tr>
 
-                                    <tr class="cart_item">
-
-                                        <td class="product-thumbnail">
-
-                                            <div class="cart-product__item">
-
-                                                <div class="cart-product-content">
-                                                    <h5 class="cart-product-title">SEO Community</h5>
-                                                </div>
-                                            </div>
-                                        </td>
-
-
-                                        <td class="product-quantity">
-
-                                            <div class="quantity">
-                                                x 2
-                                            </div>
-
-                                        </td>
-
-                                        <td class="product-subtotal">
-                                            <h5 class="total amount">$33.98</h5>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr class="cart_item">
-
-
-                                        <td class="product-thumbnail">
-
-                                            <div class="cart-product__item">
-
-                                                <div class="cart-product-content">
-                                                    <h5 class="cart-product-title">Web Analytics</h5>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td class="product-quantity">
-
-                                            <div class="quantity">
-                                                x 1
-                                            </div>
-
-                                        </td>
-
-                                        <td class="product-subtotal">
-                                            <h5 class="total amount">$8.99</h5>
-                                        </td>
-
-                                    </tr>
 
                                     <tr class="cart_item subtotal">
 
@@ -116,7 +51,7 @@
                                         </td>
 
                                         <td class="product-subtotal">
-                                            <h5 class="total amount">$100.97</h5>
+                                            <h5 class="total amount">${{$order->price}}</h5>
                                         </td>
                                     </tr>
 
@@ -137,7 +72,7 @@
                                         </td>
 
                                         <td class="product-subtotal">
-                                            <h5 class="total amount">$100.97</h5>
+                                            <h5 class="total amount">${{$order->price}}</h5>
                                         </td>
                                     </tr>
 

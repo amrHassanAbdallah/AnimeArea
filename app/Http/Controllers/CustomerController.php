@@ -110,11 +110,11 @@ class CustomerController extends Controller
 
 
         $login = new Checkout();
-        $login->attach([new \App\classes\EmailNotifier(),new LogHandler()]);
+        $login->attach([new \App\classes\EmailNotifier()]);
         $login->fire();
 
 
-        return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice()]);
+        return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice(),'order'=>$order]);
     }
 
 

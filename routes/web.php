@@ -45,6 +45,16 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::resource('category', 'CategoriesController');
 });
 
+Route::middleware('auth')->group(function (){
+    Route::get('/notification/{id}',[
+        'uses' =>'NotificationsController@single',
+        'as' => 'notification.single'
+    ]);
+    Route::get('/notification/',[
+        'uses' =>'NotificationsController@all',
+        'as' => 'notification'
+    ]);
+});
 
 Route::middleware([ 'customer'])->group(function () {
     Route::get('/cart', [
