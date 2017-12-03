@@ -13,12 +13,10 @@ class customerMiddleWareTest extends TestCase
      *
      * @return void
      */
-   /* public function testAccessWithoutMemberShip()
+    /*public function testAccessWithoutMemberShip()
     {
-        $this->browse(function ($browser) {
-            $browser->visit('/dashboard')
-                -> seePageIs('/login');
-        });
+        $this->call('GET','/');
+        $this->assertResponseOk();
 
     }*/
 }
