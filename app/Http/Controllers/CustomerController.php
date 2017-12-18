@@ -208,7 +208,7 @@ class CustomerController extends Controller
 
     protected function getNumberOFProductsWithInTheCart()
     {
-        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders) {
+        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->first()) {
             return count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
         }
         return 0;
