@@ -9,6 +9,8 @@
 namespace App\classes;
 
 
+use App\Wallet;
+
 class CreditCardStrategy implements PaymentStrategy
 {
     private  $name;
@@ -24,7 +26,24 @@ class CreditCardStrategy implements PaymentStrategy
     }
 
 
-    function pay(int $amount) {
-        return(amount + " $ paid with credit/debit card");
+    function pay(float $amount) {
+        $SellerWallet = Wallet::where("user_id","=",1)->first();
+        if(!$SellerWallet){
+            $SellerWallet = new Wallet();
+            $SellerWallet->user_id = 1;
+            $SellerWallet->payment = 0.0;
+        }
+        if(1000000>($SellerWallet->amount+$amount)){
+            $SellerWallet->amount += $amount;
+            return true;
+
+        }
+
+        return false;
+    }
+
+    public function TransferMoney(float $amount)
+    {
+        // TODO: Implement TransferMoney() method.
     }
 }

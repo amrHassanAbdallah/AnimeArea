@@ -9,6 +9,8 @@
 namespace App\classes;
 
 
+use App\Wallet;
+
 class PaypalStrategy implements PaymentStrategy {
 
     private  $emailId;
@@ -22,8 +24,25 @@ class PaypalStrategy implements PaymentStrategy {
     }
 
 
-    function pay(int $amount) {
-        return( $this->amount + " $ paid using Paypal.");
+    function pay(float $amount) {
+        $SellerWallet = Wallet::where("user_id","=",1)->first();
+        if(!$SellerWallet){
+            $SellerWallet = new Wallet();
+            $SellerWallet->user_id = 1;
+            $SellerWallet->amount = 0.0;
+        }
+        if(1000000>(((float)$SellerWallet->amount)+$amount)){
+
+            $SellerWallet->amount += $amount;
+            return true;
+
+        }
+
+        return false;
     }
 
+    public function TransferMoney(float $amount)
+    {
+        // TODO: Implement TransferMoney() method.
+    }
 }
