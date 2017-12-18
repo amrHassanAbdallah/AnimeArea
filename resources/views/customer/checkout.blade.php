@@ -26,7 +26,7 @@
 
                                             <div class="cart-product__item">
                                                 <div class="cart-product-content">
-                                                    <h5 class="cart-product-title">{{(new \App\classes\Tax($order))->getDescription()}}</h5>
+                                                    <h5 class="cart-product-title" style="line-height: 2">{{(new \App\classes\Tax($order))->getDescription()}}</h5>
                                                 </div>
                                             </div>
                                         </td>
