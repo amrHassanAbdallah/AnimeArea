@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
+    public function index()
+    {
+        return view("orders.index")->with(["orders"=>Order::all()]);
+    }
+
+    public function single($id)
+    {
+        return view("orders.single")->with(["order"=>Order::find($id)]);
+    }
     public function state($order_id)
     {
         //send notification to user , chaange order state , change delevery state
