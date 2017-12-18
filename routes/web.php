@@ -43,6 +43,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth', 'Seller'])->group(function () {
     Route::resource('products', 'ProductsController');
     Route::resource('category', 'CategoriesController');
+    Route::post('/orderState/{id}',[
+        'uses' =>'OrdersController@state',
+        'as' =>'Order.confirmation'
+    ]);
 });
 
 Route::middleware('auth')->group(function (){
