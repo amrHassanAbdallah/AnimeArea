@@ -113,12 +113,6 @@ class CustomerController extends Controller
         $order->price = $this->TotallPrice();
         $order->save();
 
-
-        $checkOut = new Checkout();
-        $checkOut->attach([new \App\classes\CheckoutNotifier()]);
-        $checkOut->fire();
-
-
         return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice(),'order'=>$order]);
     }
 
