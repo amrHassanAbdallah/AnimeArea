@@ -38,13 +38,14 @@
 
                     </tbody>
                 </table>
+                @if($order->state)
                 <div class="text-center">
                     {!! Form::open(['action' =>['OrdersController@state',$order->id],'method'=>'POST']) !!}
                     {{Form::submit('Ship Now',['class'=>'form-control btn  btn-success'])}}
                     {!! Form::close() !!}
 
                 </div>
-
+@endif
 
 
             </div>
