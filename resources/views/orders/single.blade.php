@@ -43,9 +43,7 @@
                 @if($order->state&& Auth::user()->membership === "Seller" )
                     <div class="text-center">
                         {!! Form::open(['action' =>['OrdersController@state',$order->id],'method'=>'POST']) !!}
-                        <select style="display: none" name="shipment_state" >
-                            <option value="In progress" selected>In progress</option>
-                        </select>
+
                         {{Form::submit('Ship Now',['class'=>'form-control btn  btn-success'])}}
                         {!! Form::close() !!}
 

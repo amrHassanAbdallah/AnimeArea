@@ -22,7 +22,7 @@ class OrdersController extends Controller
         //send notification to user , chaange order state , change delevery state
         $Order = Order::find($order_id);
         $Order->state = 0;
-        $Order->shipment_state = $request->shipment_state;
+        $Order->shipment_state = ($request->shipment_state)?$request->shipment_state:"In progress";
         $Order->save();
         $login = new Checkout();
         $login->attach([new \App\classes\OrderConfirmationNotifier($Order->id)]);
