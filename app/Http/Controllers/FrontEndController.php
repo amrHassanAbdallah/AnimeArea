@@ -21,7 +21,7 @@ class FrontEndController extends Controller
     public function index(/*Dispatcher $dispatcher*/)
     {
         $NOP = 0;
-        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders){
+        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->first()){
             $NOP = count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
         }
         /*$dispatcher->fire('UserHasLoggedIn');*/

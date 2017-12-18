@@ -6,7 +6,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Notification</div>
             <div class="panel-body">
-                <p class="text-info text-center">{{$notification->content}}</p>
+                <p class="text-info text-center">{!! $notification->content !!}</p>
 
             </div>
 

@@ -17,12 +17,12 @@ class OrdersController extends Controller
     {
         return view("orders.single")->with(["order"=>Order::find($id)]);
     }
-    public function state($order_id)
+    public function state($order_id,Request $request)
     {
         //send notification to user , chaange order state , change delevery state
         $Order = Order::find($order_id);
         $Order->state = 0;
-        $Order->shipment_state = "In progress";
+        $Order->shipment_state = $request->shipment_state;
         $Order->save();
         $login = new Checkout();
         $login->attach([new \App\classes\OrderConfirmationNotifier($Order->id)]);

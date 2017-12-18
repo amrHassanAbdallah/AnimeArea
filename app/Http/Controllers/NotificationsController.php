@@ -18,11 +18,12 @@ class NotificationsController extends Controller
             $notification->saw = 1;
             $notification->save();
         }
-       if($notification->type == "order"){
+       if($notification->type === "order" ){
             $order = Order::find((int)$notification->content);
            return view('notifications.order')->with(['order'=>$order,'customer'=>$order->getUser()]);
        }
-        return view('notifications.single')->with('notification',Notification::find($id));
+
+        return view('notifications.single')->with('notification',$notification);
     }
 
 

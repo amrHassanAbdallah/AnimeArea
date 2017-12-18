@@ -40,15 +40,30 @@
 
                     </tbody>
                 </table>
-                @if($order->state)
+                @if($order->state&& Auth::user()->membership === "Seller" )
                     <div class="text-center">
                         {!! Form::open(['action' =>['OrdersController@state',$order->id],'method'=>'POST']) !!}
+                        <select style="display: none" name="shipment_state" >
+                            <option value="In progress" selected>In progress</option>
+                        </select>
                         {{Form::submit('Ship Now',['class'=>'form-control btn  btn-success'])}}
                         {!! Form::close() !!}
 
                     </div>
                 @endif
+                @if(!$order->state && Auth::user()->membership === "Seller" &&($order->shipment_state === "In progress" || $order->shipment_state === "On Hold"))
+                    <div class="text-center">
+                        {!! Form::open(['action' =>['OrdersController@state',$order->id],'method'=>'POST']) !!}
+                        <select  name="shipment_state"  class="form-control form-group">
+                            <option value="In progress" @if($order->shipment_state === "In progress")selected @endif>In progress</option>
+                            <option value="On Hold" @if($order->shipment_state === "On Hold")selected @endif>On Hold</option>
+                            <option value="Delivered" @if($order->shipment_state === "Delivered")selected @endif>Delivered</option>
+                        </select>
+                        {{Form::submit('Update',['class'=>'form-control btn  btn-success'])}}
+                        {!! Form::close() !!}
 
+                    </div>
+                @endif
 
             </div>
 
