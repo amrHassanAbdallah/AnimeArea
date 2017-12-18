@@ -9,11 +9,11 @@
                     <div class="col-lg-12">
                         <div class="order">
                             <h2 class="h1 order-title text-center">Your Order</h2>
-                            <form action="#" method="post" class="cart-main">
+
                                 <table class="shop_table cart">
                                     <thead class="cart-product-wrap-title-main">
-                                    <tr>
-                                        <th class="product-thumbnail">Order description</th>
+                                    <tr class="product-thumbnail" style="background-color: black;color: white;" >
+                                        <th style="padding: 20px;font-size: 24px" >Order description</th>
 
 
                                     </tr>
@@ -22,11 +22,11 @@
 
                                     <tr class="cart_item">
 
-                                        <td class="product-thumbnail">
+                                        <td class="product-thumbnail" style="background-color: white;padding: 40px;0">
 
                                             <div class="cart-product__item">
                                                 <div class="cart-product-content">
-                                                    <h5 class="cart-product-title">{{$order->description}}</h5>
+                                                    <h5 class="cart-product-title">{{(new \App\classes\Tax($order))->getDescription()}}</h5>
                                                 </div>
                                             </div>
                                         </td>
@@ -34,7 +34,7 @@
                                     </tr>
 
 
-                                    <tr class="cart_item subtotal">
+                                    <tr class="cart_item subtotal" style="background-color: #00adef;padding: 10px">
 
                                         <td class="product-thumbnail">
 
@@ -50,12 +50,12 @@
 
                                         </td>
 
-                                        <td class="product-subtotal">
+                                        <td class="product-subtotal" >
                                             <h5 class="total amount">${{$order->price}}</h5>
                                         </td>
                                     </tr>
 
-                                    <tr class="cart_item total">
+                                    <tr class="cart_item total"  style="background-color: #00cc66;padding: 10px">
 
                                         <td class="product-thumbnail">
 
@@ -72,7 +72,7 @@
                                         </td>
 
                                         <td class="product-subtotal">
-                                            <h5 class="total amount">${{$order->price}}</h5>
+                                            <h5 class="total amount">${{(new \App\classes\Tax($order))->getCost()}}</h5>
                                         </td>
                                     </tr>
 
@@ -96,7 +96,6 @@
                                         </a>
 
                                         <span style="float: right;">
-								<form action="/your-server-side-code" method="POST">
 									  <script
                                               src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                               data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
@@ -107,12 +106,11 @@
                                               data-locale="auto"
                                               data-zip-code="true">
 									  </script>
-								</form>
 							</span>
                                     </div>
                                 </div>
 
-                            </form>
+
                         </div>
                     </div>
 
