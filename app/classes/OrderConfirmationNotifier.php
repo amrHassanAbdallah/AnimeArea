@@ -30,7 +30,7 @@ class OrderConfirmationNotifier implements Observer
         /*"a user :".Auth::user()->name." , email:  ".Auth::user()->email." has placed an order  ,".$order->description;*/
         $Notification->user_id = $user->id;
         $Notification->type = "Shipment_state";
-        $Notification->content =  "Your order #{$order->id} state has bee changed to {$order->shipment_state}";
+        $Notification->content =  "Your order #  <a href=\"{{route('Orders.single',$order->id)}}\"> {$order->id} </a> state has bee changed to {$order->shipment_state}";
         $Notification->save();
 
     }
