@@ -49,6 +49,10 @@ class CustomerController extends Controller
         $order = $cart->orders;
         $order = $this->SetOrder($order, $cart);
         $state = $this->NewItem($id, $order, $request->Qty);
+/*        $order->description = $this->AllDescription() ;
+        $order->price = $this->TotallPrice();
+        $order->save();*/
+
         if ($state) {
             return redirect()->back()->with(['success' => 'new item(s)!', 'NOP' => $this->getNumberOFProductsWithInTheCart()]);
 
@@ -205,7 +209,7 @@ class CustomerController extends Controller
     protected function getNumberOFProductsWithInTheCart()
     {
         if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders) {
-            return count(Auth::user()->cart->orders()->where("state","=",1)->get());
+            return count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
         }
         return 0;
     }
@@ -215,7 +219,7 @@ class CustomerController extends Controller
      */
     public function GetAllItems()
     {
-        return Auth::user()->cart->orders()->first()->items;
+        return Auth::user()->cart->orders()->where("state","=","1")->first()->items;
     }
     public function TotallPrice(){
         $items = $this->GetAllItems();

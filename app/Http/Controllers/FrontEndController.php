@@ -22,7 +22,7 @@ class FrontEndController extends Controller
     {
         $NOP = 0;
         if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders){
-            $NOP = count(Auth::user()->cart->orders()->where("state","=",1)->get());
+            $NOP = count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
         }
         /*$dispatcher->fire('UserHasLoggedIn');*/
 /*        $login = new Loginnn();
@@ -41,7 +41,7 @@ class FrontEndController extends Controller
         $product = Product::find($id);
         $NOP = 0;
         if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders){              
-            $NOP = count(Auth::user()->cart->orders()->where("state","=",1)->get());
+            $NOP = count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
         }
         return view('single')->with(['product'=>$product,'NOP'=>$NOP]);
     }
