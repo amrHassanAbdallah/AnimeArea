@@ -15,4 +15,7 @@ class Order extends  Model
     {
         return $this->hasMany(item::class);
     }
+    public function getUser(){
+        return User::find($this->Cart->User->id);
+    }
 }
