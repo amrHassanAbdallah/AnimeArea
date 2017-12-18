@@ -197,8 +197,9 @@ class CustomerController extends Controller
             $BestProduct->__set("counter",$ctr);
             $BestProduct->__set("lastUpdate",date('Y-m-d H:i:s'));
             $BestProduct->__set("category",$FirstProduct->category->name);*/
-            $BestProduct->setAll(["ProductCode"=>$product->code,"counter"=>$ctr,"category"=>$FirstProduct->category->name]);
-
+            if($BestProduct){
+                $BestProduct->setAll(["ProductCode"=>$product->code,"counter"=>$ctr,"category"=>$FirstProduct->category->name]);
+            }
 
             $item->product_id = $FirstProduct->id;
             $item->products_ids = serialize($productsIds);
