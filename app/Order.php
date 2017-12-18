@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\classes\ProductService;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends  Model
+class Order extends  Model implements ProductService
 {
     protected  $fillable = ['cart_id'];
     public function Cart()
@@ -17,5 +18,15 @@ class Order extends  Model
     }
     public function getUser(){
         return User::find($this->Cart->User->id);
+    }
+
+    public function getCost()
+    {
+        return $this->price;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 }
