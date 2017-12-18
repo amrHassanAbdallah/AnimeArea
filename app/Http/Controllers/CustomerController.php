@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\classes\backbag;
+use App\classes\BestProductVoteSingleton;
 use App\classes\CheckoutNotifier;
 use App\classes\LogHandler;
 use App\classes\Checkout;
@@ -190,6 +191,15 @@ class CustomerController extends Controller
         }
         if ($ctr > 0) {
             $item = new item;
+            $BestProduct = BestProductVoteSingleton::getInstance();
+//property_exists('BestProductVoteSingleton',"ProductCode") challenging part !!
+            /*$BestProduct->__set("ProductCode",$product->code);
+            $BestProduct->__set("counter",$ctr);
+            $BestProduct->__set("lastUpdate",date('Y-m-d H:i:s'));
+            $BestProduct->__set("category",$FirstProduct->category->name);*/
+            $BestProduct->setAll(["ProductCode"=>$product->code,"counter"=>$ctr,"category"=>$FirstProduct->category->name]);
+
+
             $item->product_id = $FirstProduct->id;
             $item->products_ids = serialize($productsIds);
             $item->price = (double)$ctr * (double)$FirstProduct->price;
