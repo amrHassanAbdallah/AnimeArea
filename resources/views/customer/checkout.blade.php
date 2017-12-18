@@ -82,7 +82,7 @@
 
 
 
-                                @if(\Illuminate\Support\Facades\Auth::user()->membership == "customer")
+                                @if(\Illuminate\Support\Facades\Auth::user()->membership == "customer" && !($order->is_paid))
 
                                     @include("Payment.SelectForm")
                                     @endif

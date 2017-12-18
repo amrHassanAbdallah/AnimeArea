@@ -1,5 +1,5 @@
 <div class="form-group col-6" class="text-center" style="border: 4px solid black;padding: 20px;border-radius: 5px">
-    {!! Form::open(['route' =>["pay",$order->id],'method'=>'get' ,'class'=>'form-group']) !!}
+    {!! Form::open(['route' =>["pay",$order->id],'method'=>'POST' ,'class'=>'form-group']) !!}
     <div  style="display: inline-block;float: left" class="input-field col-sm-6">
         <label for="PaymentWay">Credit Card </label>
 

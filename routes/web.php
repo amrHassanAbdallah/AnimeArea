@@ -11,6 +11,8 @@
 |
 */
 
+use App\classes\Checkout;
+
 Route::get('/', [
         'uses' => 'FrontEndController@index',
         'as' => 'index'
@@ -66,11 +68,32 @@ Route::middleware('auth')->group(function (){
         'uses' =>'OrdersController@single',
         'as' => 'Orders.single'
     ]);
-    Route::get('/pay/{id}',function ($id,\Illuminate\Http\Request $request){
-        return view(($request->PaymentWay == "paypal")?"Payment.paypal":"Payment.creditCard")->with("orderId",$id);
-    })->name('pay');
+
     Route::post('/pay/{id}',function ($id,\Illuminate\Http\Request $request){
-        return view(($request->PaymentWay == "paypal")?"Payment.paypal":"Payment.creditCard")->with("orderId",$id);
+        if(!isset($request->PaymentWay)){
+            return redirect()->back()->with("error","Payment gate way required !!");
+        }
+        if($request->PaymentWay == "paypal"){
+            $PaymentStrategy = new \App\classes\PaypalStrategy(\Illuminate\Support\Facades\Auth::user()->email,"123456789");
+
+        }elseif ($request->PaymentWay == "CreditCard"){
+            $PaymentStrategy = new \App\classes\CreditCardStrategy(\Illuminate\Support\Facades\Auth::user()->name,"visa","1234","2017/9");
+
+        }
+        $order = \App\Order::find($id);
+
+        $feedBackArray = ["success"=>"Your item(s) shall be delievered soon enough .",
+            "error"=>"Please try again later ! ."];
+        $state =  ($PaymentStrategy->pay((new \App\classes\Tax($order))->getCost()))?"success":"error";
+        if($state === "success"){
+            $order->is_paied = 1;
+            $order->save();
+            $checkOut = new Checkout();
+            $checkOut->attach([new \App\classes\CheckoutNotifier()]);
+            $checkOut->fire();
+
+        }
+        return redirect()->back()->with($state,$feedBackArray[$state]);
     })->name('pay');
 
 });
