@@ -109,9 +109,9 @@ class CustomerController extends Controller
         $order->save();
 
 
-        $login = new Checkout();
-        $login->attach([new \App\classes\CheckoutNotifier()]);
-        $login->fire();
+        $checkOut = new Checkout();
+        $checkOut->attach([new \App\classes\CheckoutNotifier()]);
+        $checkOut->fire();
 
 
         return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice(),'order'=>$order]);
@@ -139,15 +139,11 @@ class CustomerController extends Controller
      * @param $cart
      * @return Order
      */
-    public function SetOrder($order, $cart): Order
+    public function SetOrder($orders, $cart): Order
     {
-        if (count($order) == 0/*||$cart->order->first()->state == 0*/) {
+        $order = $cart->orders()->orderByDesc('updated_at')->first();
+        if (count($orders) == 0||$order->state == 0) {
             $order = $this->NewOrder($cart);
-        } else {
-            $order = $cart->orders()->orderByDesc('updated_at')->first();
-            if ($order->state === 0) {
-                $order = $this->NewOrder($cart);
-            }
         }
         return $order;
     }
@@ -173,22 +169,20 @@ class CustomerController extends Controller
     public function NewItem($id, $order, $Qty)
     {
         $ctr = 0;
+
         $productsIds = array();
         $FirstProduct = Product::find($id);
         $product = Product::find($id);
-        for ($i = 0; $i < $Qty; $i++) {
-            if ($product && !$product->available) {
-                $product = Product::where('available', '=', 1)->where('code', '=', $product->code)->first();
-            }
-            if ($product) {
-
+        $AllproductsWithTheSameTag = Product::where('available', '=', 1)->where('code', '=', $product->code)->limit($Qty)->get();
+        $ctr = $AllproductsWithTheSameTag->count();
+        foreach ($AllproductsWithTheSameTag as $product) {
                 /*  $item->products_ids */
                 $productsIds[] = $product->id;
 
                 $product->available = 0;
                 $product->save();
                 $ctr++;
-            }
+
         }
         if ($ctr > 0) {
             $item = new item;
@@ -211,7 +205,7 @@ class CustomerController extends Controller
     protected function getNumberOFProductsWithInTheCart()
     {
         if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders) {
-            return count(Auth::user()->cart->orders()->first()->items);
+            return count(Auth::user()->cart->orders()->where("state","=",1)->get());
         }
         return 0;
     }
