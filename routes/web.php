@@ -58,6 +58,14 @@ Route::middleware('auth')->group(function (){
         'uses' =>'NotificationsController@all',
         'as' => 'notification'
     ]);
+    Route::get('/Orders/',[
+        'uses' =>'OrdersController@index',
+        'as' => 'Orders.index'
+    ]);
+    Route::get('/Orders/{id}',[
+        'uses' =>'OrdersController@single',
+        'as' => 'Orders.single'
+    ]);
 });
 
 Route::middleware([ 'customer'])->group(function () {
