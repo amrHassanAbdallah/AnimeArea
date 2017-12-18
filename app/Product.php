@@ -28,7 +28,7 @@ class Product extends Model implements ProductService
     }*/
 public function getDescription()
     {
-        return "x ".$this->qty." product(s) , category:".$this->cat." ,".substr($this->description,0,50);
+        return "x ".$this->qty." product(s) , category:".$this->cat;
     }
 public function getCost()
     {

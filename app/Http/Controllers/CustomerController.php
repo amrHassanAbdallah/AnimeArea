@@ -80,9 +80,9 @@ class CustomerController extends Controller
         $newCost = $backbag->getCost();
         $newDescription = $backbag->getDescription();
 
-  $item->price = $newCost;
-  $item->description = $newDescription;
-  $item->save();
+      $item->price = $newCost;
+      $item->description = $newDescription;
+      $item->save();
   return redirect()->back()->with("success","all items now have a bag");
 
     }
