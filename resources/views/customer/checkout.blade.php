@@ -94,19 +94,21 @@
                                         <a href="#" class="logos-item">
                                             <img src="{{asset('app/img/amex.png')}}" alt="Amex">
                                         </a>
+@if(\Illuminate\Support\Facades\Auth::user()->membership == "customer")
+                                        {!! Form::open(['action' =>['CustomerController@store','id'=>$product->id],'method'=>'post' ,'class'=>'form-group']) !!}
+                                        <div class="quantity">
+                                            <a href="#" class="quantity-minus">-</a>
+                                            <input title="Qty" name="Qty" class="email input-text qty text" type="text" value="1">
+                                            <a href="#" class="quantity-plus">+</a>
+                                        </div>
 
-                                        <span style="float: right;">
-									  <script
-                                              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                              data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-                                              data-amount="999"
-                                              data-name="Stripe.com"
-                                              data-description="Widget"
-                                              data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                              data-locale="auto"
-                                              data-zip-code="true">
-									  </script>
-							</span>
+                                        <button type="submit"  class="btn btn-medium btn--primary">
+                                            <span class="text">Add to Cart</span>
+                                            <i class="seoicon-commerce"></i>
+                                        </button>
+                                        {!! Form::close() !!}
+    @endif
+
                                     </div>
                                 </div>
 
