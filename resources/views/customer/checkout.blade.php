@@ -79,41 +79,16 @@
                                     </tbody>
                                 </table>
 
-                                <div class="cheque">
 
-                                    <div class="logos">
-                                        <a href="#" class="logos-item">
-                                            <img src="{{asset("app/img/visa.png")}}" alt="Visa">
-                                        </a>
-                                        <a href="#" class="logos-item">
-                                            <img src="{{asset('app/img/mastercard.png')}}" alt="MasterCard">
-                                        </a>
-                                        <a href="#" class="logos-item">
-                                            <img src="{{asset('app/img/discover.png')}}" alt="DISCOVER">
-                                        </a>
-                                        <a href="#" class="logos-item">
-                                            <img src="{{asset('app/img/amex.png')}}" alt="Amex">
-                                        </a>
-@if(\Illuminate\Support\Facades\Auth::user()->membership == "customer")
-                                        {!! Form::open(['action' =>['CustomerController@store','id'=>$product->id],'method'=>'post' ,'class'=>'form-group']) !!}
-                                        <div class="quantity">
-                                            <a href="#" class="quantity-minus">-</a>
-                                            <input title="Qty" name="Qty" class="email input-text qty text" type="text" value="1">
-                                            <a href="#" class="quantity-plus">+</a>
-                                        </div>
 
-                                        <button type="submit"  class="btn btn-medium btn--primary">
-                                            <span class="text">Add to Cart</span>
-                                            <i class="seoicon-commerce"></i>
-                                        </button>
-                                        {!! Form::close() !!}
-    @endif
 
-                                    </div>
+                                @if(\Illuminate\Support\Facades\Auth::user()->membership == "customer")
+
+                                    @include("Payment.SelectForm")
+                                    @endif
                                 </div>
 
 
-                        </div>
                     </div>
 
                 </div>

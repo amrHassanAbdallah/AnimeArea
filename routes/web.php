@@ -66,6 +66,13 @@ Route::middleware('auth')->group(function (){
         'uses' =>'OrdersController@single',
         'as' => 'Orders.single'
     ]);
+    Route::get('/pay/{id}',function ($id,\Illuminate\Http\Request $request){
+        return view(($request->PaymentWay == "paypal")?"Payment.paypal":"Payment.creditCard")->with("orderId",$id);
+    })->name('pay');
+    Route::post('/pay/{id}',function ($id,\Illuminate\Http\Request $request){
+        return view(($request->PaymentWay == "paypal")?"Payment.paypal":"Payment.creditCard")->with("orderId",$id);
+    })->name('pay');
+
 });
 
 Route::middleware([ 'customer'])->group(function () {
