@@ -9,7 +9,21 @@
 namespace App\classes;
 
 
-class PaypalStrategy
-{
+class PaypalStrategy implements PaymentStrategy {
+
+    private  $emailId;
+    private  $password;
+
+
+    public function __construct(string $email,string $pwd)
+    {
+        $this->emailId=$email;
+        $this->password=$pwd;
+    }
+
+
+    function pay(int $amount) {
+        return( $this->amount + " $ paid using Paypal.");
+    }
 
 }
