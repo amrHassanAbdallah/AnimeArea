@@ -83,16 +83,16 @@
 
                                     <div class="logos">
                                         <a href="#" class="logos-item">
-                                            <img src="../public/app/img/visa.png" alt="Visa">
+                                            <img src="{{asset("app/img/visa.png")}}" alt="Visa">
                                         </a>
                                         <a href="#" class="logos-item">
-                                            <img src="../public/app/img/mastercard.png" alt="MasterCard">
+                                            <img src="{{asset('app/img/mastercard.png')}}" alt="MasterCard">
                                         </a>
                                         <a href="#" class="logos-item">
-                                            <img src="../public/app/img/discover.png" alt="DISCOVER">
+                                            <img src="{{asset('app/img/discover.png')}}" alt="DISCOVER">
                                         </a>
                                         <a href="#" class="logos-item">
-                                            <img src="../public/app/img/amex.png" alt="Amex">
+                                            <img src="{{asset('app/img/amex.png')}}" alt="Amex">
                                         </a>
 
                                         <span style="float: right;">
