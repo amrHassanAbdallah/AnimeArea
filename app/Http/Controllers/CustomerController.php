@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\classes\backbag;
-use App\classes\EmailNotifier;
+use App\classes\CheckoutNotifier;
 use App\classes\LogHandler;
 use App\classes\Checkout;
 use App\classes\Subject;
@@ -110,7 +110,7 @@ class CustomerController extends Controller
 
 
         $login = new Checkout();
-        $login->attach([new \App\classes\EmailNotifier()]);
+        $login->attach([new \App\classes\CheckoutNotifier()]);
         $login->fire();
 
 

@@ -13,7 +13,7 @@ use App\Notification;
 use App\Order;
 use Illuminate\Support\Facades\Auth;
 
-class EmailNotifier implements Observer
+class CheckoutNotifier implements Observer
 {
     public function handle()
     {
