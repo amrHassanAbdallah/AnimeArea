@@ -14,7 +14,7 @@ class AddShipmentStateToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('shipment_state')->default('N')->after('cart_id');
+            $table->string('shipment_state')->after('cart_id');
         });
     }
 
