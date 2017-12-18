@@ -33,13 +33,17 @@
                             </td>--}}
 
                         </tr>
-                        {!! Form::open(['action' =>['OrderssController@state',$order->id],'method'=>'POST']) !!}
-                        {{Form::submit('Ship Now',['class'=>'btn btn-xs btn-success'])}}
-                        {!! Form::close() !!}
+
 
 
                     </tbody>
                 </table>
+                <div class="text-center">
+                    {!! Form::open(['action' =>['OrdersController@state',$order->id],'method'=>'POST']) !!}
+                    {{Form::submit('Ship Now',['class'=>'form-control btn  btn-success'])}}
+                    {!! Form::close() !!}
+
+                </div>
 
 
 
