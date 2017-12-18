@@ -11,22 +11,22 @@ namespace App\classes;
 
 class backbag implements ProductService
 {
-    protected $Product;
+    protected $carService;
     protected $quantity ;
 
     public function __construct(ProductService $car,$number = 1)
     {
-        $this->Product = $car;
+        $this->carService = $car;
         $this->quantity = $number;
     }
 
     public function getCost()
     {
-        return $this->quantity*19 + $this->Product->getCost();
+        return $this->quantity*19 + $this->carService->getCost();
     }
     public function getDescription()
     {
-        return $this->Product->getDescription()." , x ".$this->quantity." bag : Hero";
+        return $this->carService->getDescription()." , x ".$this->quantity." bag : Hero";
     }
 
     public function setQNTY($number)
