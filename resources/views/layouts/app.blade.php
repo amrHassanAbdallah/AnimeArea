@@ -94,6 +94,30 @@
                                     </li>
                                 </ul>
                             </li>
+
+                                &nbsp;@if(Auth::check() && Auth::user()->membership === "Seller")
+                                    <li class="dropdown" style="background-color: green;color: white;border-radius: 10px;">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color: white" role="button" aria-expanded="false" aria-haspopup="true">
+                                            <?php $wallet = \App\Wallet::find(\Illuminate\Support\Facades\Auth::user()->id);
+                                            $amount = (($wallet))?$wallet->amount:"0.00";
+                                            ?>
+                                            <span >$ {{(float)$amount}}</span>
+
+                                            <span class="caret"></span>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="{{ route('logout') }}">
+                                                    Payment history
+                                                </a>
+                                                <a href="{{ route('logout') }}">
+                                                    withdraw
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                          @endif
                         @endguest
                     </ul>
                 </div>
