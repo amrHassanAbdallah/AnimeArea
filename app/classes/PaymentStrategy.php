@@ -2,7 +2,9 @@
 
 namespace App\classes;
 
+use App\User;
+
 interface PaymentStrategy {
     public function  pay(int $order_id);
-    public function TransferMoney(float $amount);
+    public function withdraw(User $user);
 }

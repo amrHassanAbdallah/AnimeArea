@@ -11,6 +11,7 @@ namespace App\classes;
 
 use App\Order;
 use App\Payment;
+use App\User;
 use App\Wallet;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,8 +48,9 @@ class CreditCardStrategy implements PaymentStrategy
         return $state;
     }
 
-    public function TransferMoney(float $amount)
+
+    public function withdraw(User $user_id)
     {
-        // TODO: Implement TransferMoney() method.
+        // TODO: Implement withdraw() method.
     }
 }

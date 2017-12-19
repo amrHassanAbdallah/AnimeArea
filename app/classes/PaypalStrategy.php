@@ -11,6 +11,7 @@ namespace App\classes;
 
 use App\Order;
 use App\Payment;
+use App\User;
 use App\Wallet;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,10 +53,17 @@ class PaypalStrategy implements PaymentStrategy {
     }
 
 
-
-
-    public function TransferMoney(float $amount)
+    public function withdraw(User $user)
     {
-        // TODO: Implement TransferMoney() method.
+       $wallet = $user->Wallet;
+
+       if($wallet && (float)$wallet->amount  > 0){
+           $transfered = $wallet->amount;
+           $wallet->amount = 0.0;
+           $wallet->save();
+           return $wallet->amount;
+
+       }
+       return false;
     }
 }

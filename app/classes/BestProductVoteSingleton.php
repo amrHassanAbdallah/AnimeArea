@@ -11,6 +11,7 @@ class BestProductVoteSingleton
     private  $counter = 0 ;
     private  $lastUpdate;
     private $category;
+    private $vote = 0;
 
 
     public static  function getInstance()
@@ -63,6 +64,22 @@ class BestProductVoteSingleton
             return $this->$name ;
         }
         return null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVote()
+    {
+        return $this->vote;
+    }
+
+    /**
+     * @param int $vote
+     */
+    public function IncreaseVote()
+    {
+         return ++$this->vote ;
     }
 
 
