@@ -9,7 +9,10 @@
 namespace App\classes;
 
 
+use App\Order;
+use App\Payment;
 use App\Wallet;
+use Illuminate\Support\Facades\Auth;
 
 class PaypalStrategy implements PaymentStrategy {
 
@@ -24,22 +27,40 @@ class PaypalStrategy implements PaymentStrategy {
     }
 
 
-    function pay(float $amount) {
+    public function pay(int $order_id) {
         $SellerWallet = Wallet::where("user_id","=",1)->first();
         if(!$SellerWallet){
             $SellerWallet = new Wallet();
             $SellerWallet->user_id = 1;
             $SellerWallet->amount = 0.0;
         }
+
+        $amount = Order::GetOrderAmountWithTaxs($order_id);
+        $state = Payment::create([
+            'amount'=>$amount,
+            'description'=>"payment for order #".$order_id,
+            'order_id'=>$order_id,
+            'customer_id'=>Auth::user()->id,
+            'user_id'=>1
+            ]);
+        if($state){
+
+            Order::UpdateOrderPaidState($order_id);
+        }
+
+        return $state;
+    }
+
+    /*public function ActivatePayment($order_id)
+    {
         if(1000000>(((float)$SellerWallet->amount)+$amount)){
 
             $SellerWallet->amount += $amount;
+            $SellerWallet->save()
             return true;
 
         }
-
-        return false;
-    }
+    }*/
 
     public function TransferMoney(float $amount)
     {

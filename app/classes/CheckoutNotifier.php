@@ -18,7 +18,8 @@ class CheckoutNotifier implements Observer
     public function handle()
     {
 
-        $order = Order::where("state","=",1)->where("cart_id","=",Auth::user()->cart->id)->first();
+        $order = Order::orderBy('updated_at', 'desc')->where("state","=",1)->where("is_paid","=",1)->where("cart_id","=",Auth::user()->cart->id)
+            ->first();
         $Notification = Notification::where("type","=","order")->where("user_id","=",1)->where("content","=",$order->id)->first();
         if($Notification  === null){
             $Notification = new Notification;
@@ -32,6 +33,7 @@ class CheckoutNotifier implements Observer
                 $Notification->save();
             }
         }
+
 
 
     }

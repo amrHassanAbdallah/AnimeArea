@@ -61,4 +61,10 @@ class Checkout implements Subject
     {
         $this->notify();
     }
+    public static function Trigger(){
+        $check = new Checkout();
+        $check->attach([new \App\classes\CheckoutNotifier()]);
+        $check->fire();
+    }
+
 }

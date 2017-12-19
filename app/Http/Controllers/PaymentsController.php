@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\classes\Checkout;
+use App\classes\CheckoutNotifier;
+use App\Notification;
+use App\Order;
 use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,19 +24,15 @@ class PaymentsController extends Controller
             $PaymentStrategy = new \App\classes\CreditCardStrategy(\Illuminate\Support\Facades\Auth::user()->name,"visa","1234","2017/9");
 
         }
-        $order = \App\Order::find($id);
-
+        $order = Order::orderBy('updated_at', 'desc')->where("state","=",1)->where("is_paid","=",1)->where("cart_id","=",Auth::user()->cart->id)
+            ->first();
         $feedBackArray = ["success"=>"Your item(s) shall be delievered soon enough .",
             "error"=>"Please try again later ! ."];
-        $state =  ($PaymentStrategy->pay((new \App\classes\Tax($order))->getCost()))?"success":"error";
-        if($state === "success"){
-            $order->is_paid = 1;
-            $order->save();
-            $checkOut = new Checkout();
-            $checkOut->attach([new \App\classes\CheckoutNotifier()]);
-            $checkOut->fire();
-
+        $state =  ($PaymentStrategy->pay($id))?"success":"error";
+        if($state){
+            Checkout::Trigger();
         }
+
         return redirect("/")->with($state,$feedBackArray[$state]);
     }
 

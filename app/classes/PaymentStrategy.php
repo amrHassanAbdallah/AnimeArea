@@ -3,6 +3,6 @@
 namespace App\classes;
 
 interface PaymentStrategy {
-    public function  pay(float $amount);
+    public function  pay(int $order_id);
     public function TransferMoney(float $amount);
 }

@@ -29,4 +29,15 @@ class Order extends  Model implements ProductService
     {
         return $this->description;
     }
+    public static function UpdateOrderPaidState($orderId){
+        $order = Order::find($orderId);
+        $order->is_paid = 1;
+        return $order->save();
+    }
+
+    public static function GetOrderAmountWithTaxs($orderId)
+    {
+        $price = Order::find($orderId)->price;
+        return ($price)?$price:0.00;
+    }
 }
