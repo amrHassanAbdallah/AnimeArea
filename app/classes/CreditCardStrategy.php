@@ -9,7 +9,10 @@
 namespace App\classes;
 
 
+use App\Order;
+use App\Payment;
 use App\Wallet;
+use Illuminate\Support\Facades\Auth;
 
 class CreditCardStrategy implements PaymentStrategy
 {
@@ -33,13 +36,20 @@ class CreditCardStrategy implements PaymentStrategy
             $SellerWallet->user_id = 1;
             $SellerWallet->payment = 0.0;
         }
-        if(1000000>($SellerWallet->amount+$amount)){
-            $SellerWallet->amount += $amount;
-            return true;
+        $amount = Order::GetOrderAmountWithTaxs($order_id);
+        $state = Payment::create([
+            'amount'=>$amount,
+            'description'=>"payment for order #".$order_id,
+            'order_id'=>$order_id,
+            'customer_id'=>Auth::user()->id,
+            'user_id'=>1
+        ]);
+        if($state){
 
+            Order::UpdateOrderPaidState($order_id);
         }
 
-        return false;
+        return $state;
     }
 
     public function TransferMoney(float $amount)
