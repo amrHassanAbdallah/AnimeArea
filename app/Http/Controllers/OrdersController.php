@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\classes\Checkout;
+use App\classes\PaymentAboutTransNotifier;
+use App\classes\PaymentTransNotifier;
 use App\Order;
 use Illuminate\Http\Request;
 
@@ -23,8 +25,15 @@ class OrdersController extends Controller
         $Order = Order::find($order_id);
         $Order->state = 0;
         $Order->shipment_state = ($request->shipment_state)?$request->shipment_state:"In progress";
-        $Order->save();
         $login = new Checkout();
+        if($request->shipment_state === "In progress"){
+            $login->attach(new PaymentAboutTransNotifier($order_id));
+        }
+        if($request->shipment_state === "Delivered"){
+            $login->attach(new PaymentTransNotifier($order_id));
+            PaymentsController::ActivatePayment($order_id);
+        }
+        $Order->save();
         $login->attach([new \App\classes\OrderConfirmationNotifier($Order->id)]);
         $login->fire();
         return redirect()->back()->with("success","Order state have been changed ");

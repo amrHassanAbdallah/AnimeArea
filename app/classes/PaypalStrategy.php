@@ -51,16 +51,8 @@ class PaypalStrategy implements PaymentStrategy {
         return $state;
     }
 
-    /*public function ActivatePayment($order_id)
-    {
-        if(1000000>(((float)$SellerWallet->amount)+$amount)){
 
-            $SellerWallet->amount += $amount;
-            $SellerWallet->save()
-            return true;
 
-        }
-    }*/
 
     public function TransferMoney(float $amount)
     {

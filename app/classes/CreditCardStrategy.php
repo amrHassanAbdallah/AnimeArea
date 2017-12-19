@@ -30,12 +30,7 @@ class CreditCardStrategy implements PaymentStrategy
 
 
     function pay(float $amount) {
-        $SellerWallet = Wallet::where("user_id","=",1)->first();
-        if(!$SellerWallet){
-            $SellerWallet = new Wallet();
-            $SellerWallet->user_id = 1;
-            $SellerWallet->payment = 0.0;
-        }
+
         $amount = Order::GetOrderAmountWithTaxs($order_id);
         $state = Payment::create([
             'amount'=>$amount,
