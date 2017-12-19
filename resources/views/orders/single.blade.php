@@ -25,14 +25,7 @@
                     <tr>
                         <td>{{$order->description}}</td>
                         <td>{{$order->state}}</td>
-                        <td>{{$order->shipment_state}}</td>
-
-                        {{--   <td>
-
-                               {!! Form::open(['action' =>['ProductsController@destroy',$product->id],'method'=>'DELETE']) !!}
-                               {{Form::submit('Delete',['class'=>'btn btn-xs btn-danger'])}}
-                               {!! Form::close() !!}
-                           </td>--}}
+                        <td>{{($order->shipment_state)?$order->shipment_state:"Not yet "}}</td>
 
                     </tr>
 
