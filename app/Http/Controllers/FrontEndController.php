@@ -21,8 +21,8 @@ class FrontEndController extends Controller
     public function index(/*Dispatcher $dispatcher*/)
     {
         $NOP = 0;
-        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->first()){
-            $NOP = count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
+        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()){
+            $NOP = count(Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()->items);
         }
         /*$dispatcher->fire('UserHasLoggedIn');*/
 /*        $login = new Loginnn();
@@ -40,8 +40,8 @@ class FrontEndController extends Controller
     {
         $product = Product::find($id);
         $NOP = 0;
-        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->first()){
-            $NOP = count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
+        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()){
+            $NOP = count(Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()->items);
         }
         return view('single')->with(['product'=>$product,'NOP'=>$NOP]);
     }

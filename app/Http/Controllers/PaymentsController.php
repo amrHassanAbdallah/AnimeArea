@@ -34,7 +34,7 @@ class PaymentsController extends Controller
             $checkOut->fire();
 
         }
-        return redirect()->back()->with($state,$feedBackArray[$state]);
+        return redirect("/")->with($state,$feedBackArray[$state]);
     }
 
     public function index()
