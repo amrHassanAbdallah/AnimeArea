@@ -22,7 +22,7 @@ class Tax implements ProductService
 
     public function getCost()
     {
-        return $this->Order->getCost() + ($this->Order->getCost()*$this->percent)/100;
+        return (float)$this->Order->getCost() + ((float)$this->Order->getCost()*(float)$this->percent)/100;
     }
     public function getDescription()
     {
