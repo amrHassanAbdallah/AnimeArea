@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\classes\Checkout;
+use App\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentsController extends Controller
 {
@@ -33,5 +35,10 @@ class PaymentsController extends Controller
 
         }
         return redirect()->back()->with($state,$feedBackArray[$state]);
+    }
+
+    public function index()
+    {
+        return view("Payment.index")->with("payments",Payment::where("user_id","=",Auth::user()->id)->get());
     }
 }

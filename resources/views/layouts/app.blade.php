@@ -95,7 +95,7 @@
                                 </ul>
                             </li>
 
-                                &nbsp;@if(Auth::check() && Auth::user()->membership === "Seller")
+                               {{-- &nbsp;@if(Auth::check() && Auth::user()->membership === "Seller")--}}
                                     <li class="dropdown" style="background-color: green;color: white;border-radius: 10px;">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color: white" role="button" aria-expanded="false" aria-haspopup="true">
                                             <?php $wallet = \App\Wallet::find(\Illuminate\Support\Facades\Auth::user()->id);
@@ -108,16 +108,19 @@
 
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <a href="{{ route('logout') }}">
+                                                <a href="{{ route('payment.history') }}">
                                                     Payment history
                                                 </a>
+                                             {{--   @if($amount > 0)--}}
                                                 <a href="{{ route('logout') }}">
                                                     withdraw
                                                 </a>
+                                                    {{--@endif--}}
+
                                             </li>
                                         </ul>
                                     </li>
-                                          @endif
+                                          {{--@endif--}}
                         @endguest
                     </ul>
                 </div>

@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function (){
     ]);
 
     Route::post('/pay/{id}',["uses"=>"PaymentsController@buy","as"=>"pay"]);
+    Route::get('/payment/history',["uses"=>"PaymentsController@index","as"=>"payment.history"]);
+
 
 });
 
