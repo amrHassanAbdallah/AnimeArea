@@ -108,7 +108,7 @@ class CustomerController extends Controller
     public function checkout()
     {
 
-        $order = Order::where("state","=",1)->where("cart_id","=",Auth::user()->cart->id)->first();
+        $order = Order::where("state","=",1)->where("is_paid","=",0)->where("cart_id","=",Auth::user()->cart->id)->first();
         $order->description = $this->AllDescription();
         $order->price = $this->TotallPrice();
         $order->save();
@@ -141,7 +141,7 @@ class CustomerController extends Controller
     public function SetOrder($orders, $cart): Order
     {
         $order = $cart->orders()->orderByDesc('updated_at')->first();
-        if (count($orders) == 0||$order->state == 0) {
+        if (count($orders) == 0||$order->is_paid === 1) {
             $order = $this->NewOrder($cart);
         }
         return $order;
@@ -213,8 +213,8 @@ class CustomerController extends Controller
 
     protected function getNumberOFProductsWithInTheCart()
     {
-        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->first()) {
-            return count(Auth::user()->cart->orders()->where("state","=","1")->first()->items);
+        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()) {
+            return count(Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()->items);
         }
         return 0;
     }
@@ -224,13 +224,19 @@ class CustomerController extends Controller
      */
     public function GetAllItems()
     {
-        return Auth::user()->cart->orders()->where("state","=","1")->first()->items;
+        $items = Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=","0")->first();
+        if($items){
+            return Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=","0")->first()->items;
+        }
+        return $items;
     }
     public function TotallPrice(){
         $items = $this->GetAllItems();
         $totall_price =0.0;
-        foreach ($items as  $item){
-            $totall_price +=$item->price;
+        if($items !== null){
+            foreach ($items as  $item){
+                $totall_price +=$item->price;
+            }
         }
         return  $totall_price;
     }
@@ -239,8 +245,10 @@ class CustomerController extends Controller
     {
         $items = $this->GetAllItems();
         $description ="";
-        foreach ($items as  $item){
-            $description .=$item->description;
+        if($items !== null){
+            foreach ($items as  $item){
+                $description .=$item->description;
+            }
         }
         return  $description;
     }
