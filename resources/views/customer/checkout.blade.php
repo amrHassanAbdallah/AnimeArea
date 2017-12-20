@@ -83,9 +83,21 @@
 
 
                                 @if(\Illuminate\Support\Facades\Auth::user()->membership == "customer" && $order->is_paid===0)
+                                {!! Form::open(['route' =>["pay",$order->id],'method'=>'POST' ,'class'=>'form-group']) !!}
 
                                     @include("Payment.SelectForm")
-                                    @endif
+                                <div class="input-field text-center " style="padding-left: 50px;">
+
+                                    <button type="submit" class="btn btn-medium btn--primary" style="display: block">
+                                        <span class="text">Buy </span>
+                                        <i class="seoicon-commerce"></i>
+                                    </button>
+                                </div>
+
+                        </div>
+                                {!! Form::close() !!}
+
+                            @endif
                                 </div>
 
 

@@ -16,6 +16,8 @@
                     </th>
 <th>active</th>
 <th>Shipment state</th>
+@if( Auth::user()->membership === "Seller" &&($order->shipment_state !== "Delivered"))<th> Cancel Order</th>
+@endif
                     {{--  <th>
                           Delete
                       </th>--}}
@@ -26,7 +28,14 @@
                         <td>{{$order->description}}</td>
                         <td>{{$order->state}}</td>
                         <td>{{($order->shipment_state)?$order->shipment_state:"Not yet "}}</td>
+                        @if( Auth::user()->membership === "Seller" &&($order->shipment_state !== "Delivered"))
+                            <td>
+                                {!! Form::open(['action' =>['OrdersController@destroy',$order->id],'method'=>'DELETE']) !!}
+                                {{Form::submit('Cancel',['class'=>'btn btn-xs btn-danger'])}}
+                                {!! Form::close() !!}
 
+                            </td>
+                        @endif
                     </tr>
 
 

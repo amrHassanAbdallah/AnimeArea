@@ -111,11 +111,11 @@
                                                 <a href="{{ route('payment.history') }}">
                                                     Payment history
                                                 </a>
-                                             {{--   @if($amount > 0)--}}
-                                                <a href="{{ route('logout') }}">
+                                                @if($amount > 0)
+                                                <a href="{{ route('withdraw',$wallet->id) }}">
                                                     withdraw
                                                 </a>
-                                                    {{--@endif--}}
+                                                    @endif
 
                                             </li>
                                         </ul>
