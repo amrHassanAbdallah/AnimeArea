@@ -12,6 +12,7 @@ namespace App\classes;
 use App\Notification;
 use App\Order;
 use App\Payment;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentTransNotifier implements Observer
 {
@@ -26,7 +27,7 @@ class PaymentTransNotifier implements Observer
         $order = Payment::where("order_id","=",$this->Order_id)->first();
 
         $Notification = new Notification;
-        $Notification->user_id = 1;
+        $Notification->user_id = Auth::user()->id;
         $Notification->type = "payment Info";
         $Notification->content =  " Congrats  you have got  $ {$order->amount} due to   order # {$order->id} . ";
 

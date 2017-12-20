@@ -29,7 +29,7 @@ class PaypalStrategy implements PaymentStrategy {
 
 
     public function pay(int $order_id) {
-        $SellerWallet = Wallet::where("user_id","=",1)->first();
+        $SellerWallet = Wallet::where("user_id","=",Auth::user()->id)->first();
         if(!$SellerWallet){
             $SellerWallet = new Wallet();
             $SellerWallet->user_id = 1;

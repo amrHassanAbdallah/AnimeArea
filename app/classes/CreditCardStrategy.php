@@ -30,7 +30,13 @@ class CreditCardStrategy implements PaymentStrategy
     }
 
 
-    function pay(float $amount) {
+    public function pay(int $order_id) {
+        $SellerWallet = Wallet::where("user_id","=",Auth::user()->id)->first();
+        if(!$SellerWallet){
+            $SellerWallet = new Wallet();
+            $SellerWallet->user_id = 1;
+            $SellerWallet->amount = 0.0;
+        }
 
         $amount = Order::GetOrderAmountWithTaxs($order_id);
         $state = Payment::create([
@@ -49,8 +55,17 @@ class CreditCardStrategy implements PaymentStrategy
     }
 
 
-    public function withdraw(User $user_id)
+    public function withdraw(User $user)
     {
-        // TODO: Implement withdraw() method.
+        $wallet = $user->Wallet;
+
+        if($wallet && (float)$wallet->amount  > 0){
+            $transfered = $wallet->amount;
+            $wallet->amount = 0.0;
+            $wallet->save();
+            return $wallet->amount;
+
+        }
+        return false;
     }
 }
