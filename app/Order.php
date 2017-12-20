@@ -40,4 +40,27 @@ class Order extends  Model implements ProductService
         $price = Order::find($orderId)->price;
         return ($price)?$price:0.00;
     }
+
+    public static function DeletingOrderWithItsItems($order_id)
+    {
+        $order = Order::find($order_id);
+        $items = $order->Items;
+        self::ResetTheProductAvailabilty($items);
+       $order->delete();
+       return redirect('/home')->with("success","Order deleted");
+    }
+    private static function ResetTheProductAvailabilty($items)
+    {
+        foreach ($items as $item) {
+            $products_ids_Inside = unserialize($item->products_ids);
+            foreach ($products_ids_Inside as $product_id) {
+                $product = Product::find($product_id);
+                if ($product) {
+                    $product->available = 1;
+                    $product->save();
+                }
+            }
+            $item->delete();
+        }
+    }
 }
