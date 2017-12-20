@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\classes\Checkout;
+use App\classes\OrderDeletedNotifier;
 use App\classes\PaymentAboutTransNotifier;
 use App\classes\PaymentTransNotifier;
 use App\Order;
@@ -38,5 +39,16 @@ class OrdersController extends Controller
         $login->fire();
         return redirect()->back()->with("success","Order state have been changed ");
 
+    }
+
+    public function destroy($order_id)
+    {
+        $order = Order::find($order_id);
+        PaymentsController::DeActivatePayment($order_id);
+        $login = new Checkout();
+        $login->attach(new OrderDeletedNotifier($order_id),new PaymentTransNotifier($order_id));
+        $login->fire();
+        Order::DeletingOrderWithItsItems($order->id);
+        return redirect('/home')->with('success','order deleted !');
     }
 }

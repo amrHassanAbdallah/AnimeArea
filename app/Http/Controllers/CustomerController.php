@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 class CustomerController extends Controller
 {
     protected $observers = [];
+
     public function __construct()
     {
         $this->middleware('customer');
@@ -29,7 +30,7 @@ class CustomerController extends Controller
     {
 
 
-        return view('customer.cart')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice()]);
+        return view('customer.cart')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(), 'totall_price' => $this->TotallPrice()]);
     }
 
     public function store(Request $request, $id)
@@ -40,19 +41,19 @@ class CustomerController extends Controller
             'Qty' => 'required|max:2|min:1',
 
         ]);
-        if((int)$request->Qty > 15){
+        if ((int)$request->Qty > 15) {
             return redirect()->back()->with(['error' => 'Sorry , we do not allow more than 15 products ,you can add 15 each time till you get what you want or let other people have their chance too . ', 'NOP' => $this->getNumberOFProductsWithInTheCart()]);
         }
-        if((int)$request->Qty === 0){
+        if ((int)$request->Qty === 0) {
             return redirect()->back()->with(['success' => 'Nice, Try buddy  what about adding product next time ! ', 'NOP' => $this->getNumberOFProductsWithInTheCart()]);
         }
         $cart = $this->NewCart(Auth::user()->cart);
         $order = $cart->orders;
         $order = $this->SetOrder($order, $cart);
         $state = $this->NewItem($id, $order, $request->Qty);
-/*        $order->description = $this->AllDescription() ;
-        $order->price = $this->TotallPrice();
-        $order->save();*/
+        /*        $order->description = $this->AllDescription() ;
+                $order->price = $this->TotallPrice();
+                $order->save();*/
 
         if ($state) {
             return redirect()->back()->with(['success' => 'new item(s)!', 'NOP' => $this->getNumberOFProductsWithInTheCart()]);
@@ -64,10 +65,11 @@ class CustomerController extends Controller
 
     }
 
-    public function addDecorator($id,$option){
-       if((int) $option >3){
-           return redirect()->back()->with("error","no such thing here");
-       }
+    public function addDecorator($id, $option)
+    {
+        if ((int)$option > 3) {
+            return redirect()->back()->with("error", "no such thing here");
+        }
         $item = item::find($id);
         $product = Product::find(item::find($id)->product_id);
         $product->setCost($product->price);
@@ -77,14 +79,14 @@ class CustomerController extends Controller
         $newCost = $item->price;
         $newDescription = $item->description;
 
-        $backbag =   (new backbag($product,$item->Quantity));
+        $backbag = (new backbag($product, $item->Quantity));
         $newCost = $backbag->getCost();
         $newDescription = $backbag->getDescription();
 
-      $item->price = $newCost;
-      $item->description = $newDescription;
-      $item->save();
-  return redirect()->back()->with("success","all items now have a bag");
+        $item->price = $newCost;
+        $item->description = $newDescription;
+        $item->save();
+        return redirect()->back()->with("success", "all items now have a bag");
 
     }
 
@@ -92,28 +94,28 @@ class CustomerController extends Controller
     {
         $item = item::find($id);
         $products_ids_Inside = unserialize($item->products_ids);
-        foreach ($products_ids_Inside as $product_id){
+        foreach ($products_ids_Inside as $product_id) {
             $product = Product::find($product_id);
-            if($product){
+            if ($product) {
                 $product->available = 1;
                 $product->save();
             }
         }
         $item->delete();
 
-        return redirect()->back()->with("success","items deleted !.");
+        return redirect()->back()->with("success", "items deleted !.");
     }
 
 
     public function checkout()
     {
 
-        $order = Order::where("state","=",1)->where("is_paid","=",0)->where("cart_id","=",Auth::user()->cart->id)->first();
+        $order = Order::where("state", "=", 1)->where("is_paid", "=", 0)->where("cart_id", "=", Auth::user()->cart->id)->first();
         $order->description = $this->AllDescription();
         $order->price = $this->TotallPrice();
         $order->save();
 
-        return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(),'totall_price'=>$this->TotallPrice(),'order'=>$order]);
+        return view('customer.checkout')->with(['NOP' => $this->getNumberOFProductsWithInTheCart(), 'items' => $this->GetAllItems(), 'totall_price' => $this->TotallPrice(), 'order' => $order]);
     }
 
 
@@ -141,7 +143,7 @@ class CustomerController extends Controller
     public function SetOrder($orders, $cart): Order
     {
         $order = $cart->orders()->orderByDesc('updated_at')->first();
-        if (count($orders) == 0||$order->is_paid === 1) {
+        if (count($orders) == 0 || $order->is_paid === 1) {
             $order = $this->NewOrder($cart);
         }
         return $order;
@@ -175,12 +177,12 @@ class CustomerController extends Controller
         $AllproductsWithTheSameTag = Product::where('available', '=', 1)->where('code', '=', $product->code)->limit($Qty)->get();
         $ctr = $AllproductsWithTheSameTag->count();
         foreach ($AllproductsWithTheSameTag as $product) {
-                /*  $item->products_ids */
-                $productsIds[] = $product->id;
+            /*  $item->products_ids */
+            $productsIds[] = $product->id;
 
-                $product->available = 0;
-                $product->save();
-                $ctr++;
+            $product->available = 0;
+            $product->save();
+            $ctr++;
 
         }
         if ($ctr > 0) {
@@ -191,8 +193,8 @@ class CustomerController extends Controller
             $BestProduct->__set("counter",$ctr);
             $BestProduct->__set("lastUpdate",date('Y-m-d H:i:s'));
             $BestProduct->__set("category",$FirstProduct->category->name);*/
-            if($BestProduct){
-                $BestProduct->setAll(["ProductCode"=>$product->code,"counter"=>$ctr,"category"=>$FirstProduct->category->name]);
+            if ($BestProduct) {
+                $BestProduct->setAll(["ProductCode" => $product->code, "counter" => $ctr, "category" => $FirstProduct->category->name]);
             }
 
             $item->product_id = $FirstProduct->id;
@@ -200,7 +202,7 @@ class CustomerController extends Controller
             $item->price = (double)$ctr * (double)$FirstProduct->price;
             $item->description = "" . $ctr . " of " . $FirstProduct->category->name . " / code :" . $FirstProduct->code;
 
-            $item ->category = $FirstProduct->category->name;
+            $item->category = $FirstProduct->category->name;
             $item->Quantity = $ctr;
 
             $order->items()->save($item);
@@ -213,8 +215,8 @@ class CustomerController extends Controller
 
     protected function getNumberOFProductsWithInTheCart()
     {
-        if(Auth::check() && Auth::user()->membership === "customer"&&null !== Auth::user()->cart &&null !==Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()) {
-            return count(Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=",0)->first()->items);
+        if (Auth::check() && Auth::user()->membership === "customer" && null !== Auth::user()->cart && null !== Auth::user()->cart->orders()->where("state", "=", "1")->where("is_paid", "=", 0)->first()) {
+            return count(Auth::user()->cart->orders()->where("state", "=", "1")->where("is_paid", "=", 0)->first()->items);
         }
         return 0;
     }
@@ -224,33 +226,35 @@ class CustomerController extends Controller
      */
     public function GetAllItems()
     {
-        $items = Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=","0")->first();
-        if($items){
-            return Auth::user()->cart->orders()->where("state","=","1")->where("is_paid","=","0")->first()->items;
+        $items = Auth::user()->cart->orders()->where("state", "=", "1")->where("is_paid", "=", "0")->first();
+        if ($items) {
+            return Auth::user()->cart->orders()->where("state", "=", "1")->where("is_paid", "=", "0")->first()->items;
         }
         return $items;
     }
-    public function TotallPrice(){
+
+    public function TotallPrice()
+    {
         $items = $this->GetAllItems();
-        $totall_price =0.0;
-        if($items !== null){
-            foreach ($items as  $item){
-                $totall_price +=$item->price;
+        $totall_price = 0.0;
+        if ($items !== null) {
+            foreach ($items as $item) {
+                $totall_price += $item->price;
             }
         }
-        return  $totall_price;
+        return $totall_price;
     }
 
     public function AllDescription()
     {
         $items = $this->GetAllItems();
-        $description ="";
-        if($items !== null){
-            foreach ($items as  $item){
-                $description .=$item->description;
+        $description = "";
+        if ($items !== null) {
+            foreach ($items as $item) {
+                $description .= $item->description;
             }
         }
-        return  $description;
+        return $description;
     }
 
 

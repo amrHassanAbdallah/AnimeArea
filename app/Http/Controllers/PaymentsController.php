@@ -39,7 +39,9 @@ class PaymentsController extends Controller
 
     public function index()
     {
-        return view("Payment.index")->with("payments", Payment::where("user_id", "=", Auth::user()->id)->get());
+        $user = Auth::user();
+        $payments = ($user->membershipt === "Seller") ? Payment::where("user_id", "=", $user->id)->get() : Payment::where("customer_id", "=", $user->id)->get();
+        return view("Payment.index")->with("payments", $payments);
     }
 
     public static function ActivatePayment($order_id)
@@ -61,4 +63,29 @@ class PaymentsController extends Controller
         }
         return false;
     }
+
+    public static function DeActivatePayment($order_id)
+    {
+        $payment = Payment::where("order_id", "=", $order_id)->first();
+        $CustomerWallet = Wallet::where("user_id", "=", $payment->customer_id)->first();
+        $amount = $payment->amount;
+        if (!$CustomerWallet) {
+            $CustomerWallet = new Wallet();
+            $CustomerWallet->user_id = $payment->customer_id;
+            $CustomerWallet->amount = 0.0;
+        }
+        if (1000000 > (((float)$CustomerWallet->amount) + $amount)) {
+
+            $CustomerWallet->amount += $amount;
+            $CustomerWallet->save();
+            return true;
+
+        }
+        return false;
+    }
+    public function withdraw($wallet_id){
+        return view("withdraw.index")->with("wallet",Wallet::find($wallet_id));
+    }
+
+
 }
