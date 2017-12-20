@@ -49,6 +49,11 @@ Route::middleware(['auth', 'Seller'])->group(function () {
         'uses' =>'OrdersController@state',
         'as' =>'Order.confirmation'
     ]);
+    Route::delete('/Orders/{id}', [
+        'uses'=>'OrdersController@destroy',
+        'as'=>'order.delete'
+    ]);
+
 });
 
 Route::middleware('auth')->group(function (){
@@ -71,6 +76,11 @@ Route::middleware('auth')->group(function (){
 
     Route::post('/pay/{id}',["uses"=>"PaymentsController@buy","as"=>"pay"]);
     Route::get('/payment/history',["uses"=>"PaymentsController@index","as"=>"payment.history"]);
+    Route::get('/withdraw/{id}',["uses"=>"PaymentsController@withdraw","as"=>"withdraw"]);
+    Route::post('/withdraw/{id}',function ($id,\Illuminate\Http\Request $request){
+        dd($request);
+    }
+        );
 
 
 });
