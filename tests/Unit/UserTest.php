@@ -28,4 +28,9 @@ class UserTest extends TestCase
         /*$user->setFirstName('Billy');
         $this->assertEquals($user->getFirstName(),'Billy');*/
     }
+    public  function testCheckSellerUser(){
+        $this->assertDatabaseHas('users', [
+            'membership' => 'Seller'
+        ]);
+    }
 }
